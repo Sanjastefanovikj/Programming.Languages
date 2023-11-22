@@ -1,0 +1,61 @@
+public class Test {
+
+    private String s;
+
+
+
+    public Test() {
+
+        this.s = "Programming languages";
+
+    }
+
+
+
+    public void method1() {
+
+        System.out.println(s);
+
+    }
+
+
+
+    public void method2(int n) {
+
+        System.out.println(n);
+
+    }
+
+
+
+    private void method3() {
+
+        System.out.println("Private method is invoked");
+
+    }
+
+}
+
+
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        Test test = new Test();
+
+        System.out.println(test.getClass().getName());
+
+        System.out.println(test.getClass().getConstructors()[0].getName());
+
+        System.out.println(test.getClass().getConstructors()[0].getName());
+
+        for (java.lang.reflect.Method method : test.getClass().getDeclaredMethods()) {
+
+            System.out.println(method.getName());
+
+        }
+
+    }
+
+}
