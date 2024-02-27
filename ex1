@@ -1,0 +1,52 @@
+mport java.io.*;
+import java.net.*;
+
+public class WebContentAnalyzer {
+    public static void main(String[] args) {
+        String url = "https://uacs.edu.mk/home/";
+        String contentFileName = "downloaded_content.txt";
+        String reportFileName = "count_report.txt";
+
+        try {
+            // Step 1: Download content and save as text file
+            URL website = new URL(url);
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(website.openStream()));
+                 BufferedWriter writer = new BufferedWriter(new FileWriter(contentFileName))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    writer.write(line);
+                    writer.newLine();
+                }
+            }
+
+            // Step 2: Analyze the document
+            try (BufferedReader reader = new BufferedReader(new FileReader(contentFileName));
+                 BufferedWriter writer = new BufferedWriter(new FileWriter(reportFileName))) {
+                int lineCount = 0;
+                int maxChars = 0;
+                int maxCharsLine = 0;
+                String maxLine = "";
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    lineCount++;
+                    if (line.length() > maxChars) {
+                        maxChars = line.length();
+                        maxCharsLine = lineCount;
+                        maxLine = line;
+                    }
+                }
+                writer.write("Number of lines in the document: " + lineCount);
+                writer.newLine();
+                writer.write("Line number with max characters: " + maxCharsLine);
+                writer.newLine();
+                writer.write("Number of characters in the line number with max characters: " + maxChars);
+                writer.newLine();
+                System.out.println("Analysis completed. Results saved in " + reportFileName);
+            }
+        } catch (MalformedURLException e) {
+            System.out.println("Invalid URL: " + url);
+        } catch (IOException e) {
+            System.out.println("Error accessing URL or file operations: " + e.getMessage());
+        }
+    }
+}
